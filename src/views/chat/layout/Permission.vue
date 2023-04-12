@@ -3,7 +3,6 @@ import { computed, ref } from 'vue'
 import { NButton, NInput, NModal, useMessage } from 'naive-ui'
 import { fetchVerify } from '@/api'
 import { useAuthStore } from '@/store'
-import Icon403 from '@/icons/403.vue'
 
 interface Props {
   visible: boolean
@@ -17,19 +16,20 @@ const ms = useMessage()
 
 const loading = ref(false)
 const token = ref('')
+const username = ref('')
 
 const disabled = computed(() => !token.value.trim() || loading.value)
 
 async function handleVerify() {
   const secretKey = token.value.trim()
-
-  if (!secretKey)
+  const user = username.value.trim()
+  if (!secretKey || !username.value)
     return
 
   try {
     loading.value = true
-    await fetchVerify(secretKey)
-    authStore.setToken(secretKey)
+    const res = await fetchVerify(secretKey, user)
+    authStore.setToken(res.token)
     ms.success('success')
     window.location.reload()
   }
@@ -57,14 +57,11 @@ function handlePress(event: KeyboardEvent) {
       <div class="space-y-4">
         <header class="space-y-2">
           <h2 class="text-2xl font-bold text-center text-slate-800 dark:text-neutral-200">
-            403
+            用户登陆
           </h2>
-          <p class="text-base text-center text-slate-500 dark:text-slate-500">
-            {{ $t('common.unauthorizedTips') }}
-          </p>
-          <Icon403 class="w-[200px] m-auto" />
         </header>
-        <NInput v-model:value="token" type="password" placeholder="" @keypress="handlePress" />
+        用户名：<NInput v-model:value="username" type="text" placeholder="" @keypress="handlePress" />
+        密  码：<NInput v-model:value="token" type="password" placeholder="" @keypress="handlePress" />
         <NButton
           block
           type="primary"
