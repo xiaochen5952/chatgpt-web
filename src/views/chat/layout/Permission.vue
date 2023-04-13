@@ -1,6 +1,8 @@
 <script setup lang='ts'>
 import { computed, ref } from 'vue'
 import { NButton, NInput, NModal, useMessage } from 'naive-ui'
+import moment from 'moment'
+import { setLocalState } from '@/store/modules/user/helper'
 import { fetchVerify } from '@/api'
 import { useAuthStore } from '@/store'
 
@@ -31,6 +33,14 @@ async function handleVerify() {
     const res = await fetchVerify(secretKey, user)
     authStore.setToken(res.token)
     ms.success('success')
+    const userState = {
+      userInfo: {
+        avatar: 'https://raw.githubusercontent.com/Chanzhaoyu/chatgpt-web/main/src/assets/avatar.jpg',
+        name: res.username,
+        description: `${moment(res.expiration).format('YY/MM/DD HH:mm:ss')}过期`,
+      },
+    }
+    setLocalState(userState)
     window.location.reload()
   }
   catch (error: any) {

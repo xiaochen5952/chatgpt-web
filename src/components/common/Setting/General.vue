@@ -7,6 +7,7 @@ import { useAppStore, useUserStore } from '@/store'
 import { getCurrentDate } from '@/utils/functions'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { t } from '@/locales'
+import { useAuthStoreWithout } from '@/store/modules/auth'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -51,8 +52,10 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
 ]
 
 function handleReset() {
+  const authStore = useAuthStoreWithout()
   userStore.resetUserInfo()
   ms.success(t('common.success'))
+  authStore.removeToken()
   window.location.reload()
 }
 

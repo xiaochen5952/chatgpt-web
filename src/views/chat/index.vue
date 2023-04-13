@@ -159,8 +159,6 @@ async function onConversation() {
   }
   catch (error: any) {
     const errorMessage = error?.message ?? t('common.wrong')
-    const authStore = useAuthStoreWithout()
-    authStore.removeToken()
     if (error.message === 'canceled') {
       updateChatSome(
         +uuid,
@@ -187,21 +185,25 @@ async function onConversation() {
       )
       return
     }
-
-    updateChat(
-      +uuid,
-      dataSources.value.length - 1,
-      {
-        dateTime: new Date().toLocaleString(),
-        text: errorMessage,
-        inversion: false,
-        error: true,
-        loading: false,
-        conversationOptions: null,
-        requestOptions: { prompt: message, options: { ...options } },
-      },
-    )
+    if (error.status === 'Fail') {
+      updateChat(
+        +uuid,
+        dataSources.value.length - 1,
+        {
+          dateTime: new Date().toLocaleString(),
+          text: errorMessage,
+          inversion: false,
+          error: true,
+          loading: false,
+          conversationOptions: null,
+          requestOptions: { prompt: message, options: { ...options } },
+        },
+      )
+      return
+    }
     scrollToBottomIfAtBottom()
+    const authStore = useAuthStoreWithout()
+    authStore.removeToken()
   }
   finally {
     loading.value = false

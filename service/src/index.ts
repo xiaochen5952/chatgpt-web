@@ -37,20 +37,21 @@ mongoose.connect('mongodb+srv://xiaochen1649:Guan595212@cluster0.qowmjma.mongodb
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
+  expiration: { type: Date, required: true },
 })
 
 const User = mongoose.model('User', userSchema)
 
 // 用户注册
 router.post('/register', async (req, res) => {
-  const { username, password } = req.body
+  const { username, password, expiration } = req.body
 
   // 使用 bcrypt 进行密码加密
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(password, salt)
 
   // 创建新用户
-  const newUser = new User({ username, password: hashedPassword })
+  const newUser = new User({ username, password: hashedPassword, expiration: new Date(Date.now() + expiration * 60 * 60 * 1000) })
 
   // 保存用户到数据库
   try {
@@ -75,9 +76,14 @@ router.post('/login', async (req, res) => {
     else {
       // 验证密码
       if (await bcrypt.compare(password, user.password)) {
+        // 计算有效期
+        const now = Date.now()
+        const expiration = user.expiration.getTime()
+        const expiresIn = Math.max(0, Math.floor((expiration - now) / 1000)) // 将有效期转换为秒，并确保不小于0
+
         // 密码匹配，生成 JWT token
-        const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn: '1h' })
-        res.json({ token, status: 'Success' })
+        const token = jwt.sign({ userId: user._id }, 'secretKey', { expiresIn })
+        res.json({ token, status: 'Success', expiration, username })
       }
       else {
         res.status(401).json({ success: false, message: '密码错误' })
