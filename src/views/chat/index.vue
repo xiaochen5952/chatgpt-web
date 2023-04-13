@@ -16,6 +16,7 @@ import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useChatStore, usePromptStore } from '@/store'
 import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
+import { useAuthStoreWithout } from '@/store/modules/auth'
 
 let controller = new AbortController()
 
@@ -158,7 +159,8 @@ async function onConversation() {
   }
   catch (error: any) {
     const errorMessage = error?.message ?? t('common.wrong')
-
+    const authStore = useAuthStoreWithout()
+    authStore.removeToken()
     if (error.message === 'canceled') {
       updateChatSome(
         +uuid,

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { NButton,  NPopconfirm, NSelect, useMessage } from 'naive-ui'
+import { NButton, NPopconfirm, NSelect, useMessage } from 'naive-ui'
 import type { Language, Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
 import { useAppStore, useUserStore } from '@/store'
@@ -16,10 +16,6 @@ const { isMobile } = useBasicLayout()
 const ms = useMessage()
 
 const theme = computed(() => appStore.theme)
-
-
-
-
 
 const language = computed({
   get() {
@@ -53,8 +49,6 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
   { label: '繁體中文', key: 'zh-TW', value: 'zh-TW' },
   { label: 'English', key: 'en-US', value: 'en-US' },
 ]
-
-
 
 function handleReset() {
   userStore.resetUserInfo()
@@ -115,7 +109,6 @@ function handleImportButtonClick(): void {
 <template>
   <div class="p-4 space-y-5 min-h-[200px]">
     <div class="space-y-6">
-      
       <div
         class="flex items-center space-x-4"
         :class="isMobile && 'items-start'"
