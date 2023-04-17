@@ -51,7 +51,7 @@ router.post('/register', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt)
 
   // 创建新用户
-  const newUser = new User({ username, password: hashedPassword, expiration: new Date(Date.now() + expiration * 60 * 60 * 1000) })
+  const newUser = new User({ username, password: hashedPassword, expiration: new Date(Date.now() + expiration * 24 * 60 * 60 * 1000) })
 
   // 保存用户到数据库
   try {
