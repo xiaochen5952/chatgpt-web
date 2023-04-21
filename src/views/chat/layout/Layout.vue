@@ -35,9 +35,6 @@ const getContainerClass = computed(() => {
 </script>
 
 <template>
-  <div>'是否显示'{{ needPermission }}</div>
-  <div>'session中的auth'{{ authStore.session?.auth }}</div>
-  <div>'token 是'{{ authStore.token }}</div>
   <div class="h-full dark:bg-[#24272e] transition-all" :class="[isMobile ? 'p-0' : 'p-4']">
     <div class="h-full overflow-hidden" :class="getMobileClass">
       <NLayout class="z-40 transition" :class="getContainerClass" has-sider>

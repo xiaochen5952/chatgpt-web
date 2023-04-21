@@ -1,5 +1,4 @@
 import express from 'express'
-import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -19,7 +18,7 @@ app.use(bodyParser.json())
 // 连接 MongoDB 数据库
 mongoose.connect(mongodb_url)
   .then(() => {
-    morgan('Connected to MongoDB')
+    console.error('Connected to MongoDB')
   })
   .catch((error) => {
     console.error('Failed to connect to MongoDB', error)
