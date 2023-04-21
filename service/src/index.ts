@@ -12,7 +12,7 @@ import { isNotEmptyString } from './utils/is'
 
 const app = express()
 const router = express.Router()
-const mongodb_url = isNotEmptyString(process.env.MONGODB_URL) ? process.env.MONGODB_URL : 'mongodb + srv://xiaochen1649:Guan595212@cluster0.qowmjma.mongodb.net/testp'
+const mongodb_url = isNotEmptyString(process.env.MONGODB_URL) ? process.env.MONGODB_URL : 'mongodb+srv://xiaochen1649:Guan595212@cluster0.qowmjma.mongodb.net/testp'
 // 解析请求体
 app.use(bodyParser.json())
 
