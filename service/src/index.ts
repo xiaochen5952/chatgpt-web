@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import express from 'express'
 import bodyParser from 'body-parser'
 import bcrypt from 'bcryptjs'
@@ -9,19 +11,34 @@ import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
 import { limiter } from './middleware/limiter'
 import { isNotEmptyString } from './utils/is'
 
+// 获取当前日期字符串，格式为 YYYY-MM-DD
+function getCurrentDate() {
+  const now = new Date()
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
+// 自定义输出方法，将日志信息写入当天日期的文件
+function customLogger(message) {
+  const currentDate = getCurrentDate()
+  const log = `[MyLog]: ${message}\n` // 添加日志信息并换行
+  const logFilePath = path.join(__dirname, `log_${currentDate}.txt`)
+  fs.appendFile(logFilePath, log, (err) => {
+    if (err)
+      throw err
+  })
+}
+
 const app = express()
 const router = express.Router()
+const mongodb_url = isNotEmptyString(process.env.MONGODB_URL) ? process.env.MONGODB_URL : 'mongodb + srv://xiaochen1649:Guan595212@cluster0.qowmjma.mongodb.net/testp'
 // 解析请求体
 app.use(bodyParser.json())
 
-// 修改后
-function customLogger(message) {
-  // 自定义日志输出逻辑，例如将日志写入文件或发送到日志服务
-  // ...
-}
-
 // 连接 MongoDB 数据库
-mongoose.connect('mongodb+srv://xiaochen1649:Guan595212@cluster0.qowmjma.mongodb.net/testp')
+mongoose.connect(mongodb_url)
 //   , {
 // // mongoose.connect('mongodb://localhost:27017/test', {
 //   useNewUrlParser: true,
