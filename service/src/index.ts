@@ -19,6 +19,7 @@ app.use(bodyParser.json())
 mongoose.connect(mongodb_url)
   .then(() => {
     console.error('Connected to MongoDB')
+    console.error(mongodb_url)
   })
   .catch((error) => {
     console.error('Failed to connect to MongoDB', error)
