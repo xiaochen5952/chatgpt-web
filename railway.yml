@@ -8,31 +8,15 @@ services:
       - 3002:3002
     environment:
       # 二选一
-      OPENAI_API_KEY:
-      # 二选一
       OPENAI_ACCESS_TOKEN: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJ4aWFvY2hlbjE2NDlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJodHRwczovL2FwaS5vcGVuYWkuY29tL2F1dGgiOnsidXNlcl9pZCI6InVzZXItc2x5VlFMTlcwWnE5SlZ4NWxxSUtBaFB1In0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDExODM1MzQ1MTY1NjM2MDUwNTM0NyIsImF1ZCI6WyJodHRwczovL2FwaS5vcGVuYWkuY29tL3YxIiwiaHR0cHM6Ly9vcGVuYWkub3BlbmFpLmF1dGgwYXBwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2ODE2OTU0OTEsImV4cCI6MTY4MjkwNTA5MSwiYXpwIjoiVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEciLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG1vZGVsLnJlYWQgbW9kZWwucmVxdWVzdCBvcmdhbml6YXRpb24ucmVhZCBvZmZsaW5lX2FjY2VzcyJ9.R4wivFlV3lKrHk3oUZUf-efP9WMhnnU2X8waiW3o8JMP1IHulJkOOKRHRs1xTEqNuxXE1a2hqBAurcdVsPcT2fl-0b_YTORT0ML4lMi575HlZjmwHn8Abc-i5UTO4faYacFI9YMQrk0VDNAA6e5OQd_nD0tXOti3GpGPv-ffati6k0dCS4xDVcRpb-0zmyw2q_uA8Lr2cnrTQZWHnWMpkAyiv17Fc2POketl8rq6peEocel2VdIUIShyk88u9y4hX2_-HNphmL8ww8llNOwL_3yHzRJN7LicJEc_FgJ9cth4BdMSH6Dsj02GsdC5bVLzbDTgX7_wl9rsHacvovAW3g
-      # API接口地址，可选，设置 OPENAI_API_KEY 时可用
-      OPENAI_API_BASE_URL:
-      # API模型，可选，设置 OPENAI_API_KEY 时可用
-      OPENAI_API_MODEL:
       # 反向代理，可选
       API_REVERSE_PROXY: http://go-chatgpt-api:8080/conversation
-      # 访问权限密钥，可选
-      AUTH_SECRET_KEY:
+
       # 每小时最大请求次数，可选，默认无限
       MAX_REQUEST_PER_HOUR: 0
       # 超时，单位毫秒，可选
       TIMEOUT_MS: 60000
-      # Socks代理，可选，和 SOCKS_PROXY_PORT 一起时生效
-      SOCKS_PROXY_HOST:
-      # Socks代理端口，可选，和 SOCKS_PROXY_HOST 一起时生效
-      SOCKS_PROXY_PORT:
-      # Socks代理用户名，可选，和 SOCKS_PROXY_HOST & SOCKS_PROXY_PORT 一起时生效
-      SOCKS_PROXY_USERNAME:
-      # Socks代理密码，可选，和 SOCKS_PROXY_HOST & SOCKS_PROXY_PORT 一起时生效
-      SOCKS_PROXY_PASSWORD:
-      # HTTPS_PROXY 代理，可选
-      HTTPS_PROXY:
+
   go-chatgpt-api:
     container_name: go-chatgpt-api
     image: linweiyuan/go-chatgpt-api
